@@ -1,0 +1,19 @@
+{
+  "name": "shop-react-redux-cloudfront-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spiritina/shop-react-redux-cloudfront-back.git"
+  },
+  "author": "Olga Novak",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spiritina/shop-react-redux-cloudfront-back/issues"
+  },
+  "homepage": "https://github.com/spiritina/shop-react-redux-cloudfront-back#readme"
+}
