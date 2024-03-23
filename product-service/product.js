@@ -22,6 +22,6 @@ module.exports.getProductsById = async (event) => {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "OPTIONS, GET",
         },
-        body: {error: `Product with ID ${productId} is not found`}
+        body: JSON.stringify({error: `Product with ID ${productId} is not found`})
     }}
   }
