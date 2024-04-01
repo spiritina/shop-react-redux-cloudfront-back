@@ -29,48 +29,13 @@ provider:
     - Effect: "Allow"
       Action:
         - "dynamodb:*"
-      Resource: "arn:aws:dynamodb:eu-west-1:*:table/*"
-# resources: # CloudFormation template syntax from here on.
-  # Resources:
-  #   HappyShopProduct:
-  #     Type: AWS::DynamoDB::Table
-  #     Properties:
-  #       TableName: HappyShopProduct
-  #       AttributeDefinitions:
-  #         - AttributeName: id
-  #           AttributeType: S
-  #         - AttributeName: title
-  #           AttributeType: S
-  #         # - AttributeName: description
-  #         #   AttributeType: S
-  #         # - AttributeName: price
-  #         #   AttributeType: N      
-  #       KeySchema:
-  #         - AttributeName: id
-  #           KeyType: HASH
-  #       ProvisionedThroughput:
-  #         ReadCapacityUnits: 1
-  #         WriteCapacityUnits: 1
-  #   HappyShopStore:
-  #     Type: AWS::DynamoDB::Table
-  #     Properties:
-  #       TableName: HappyShopStore
-  #       AttributeDefinitions:
-  #         - AttributeName: product_id
-  #           AttributeType: S
-  #         # - AttributeName: count
-  #         #   AttributeType: N      
-  #       KeySchema:
-  #         - AttributeName: product_id
-  #           KeyType: HASH 
-  #       ProvisionedThroughput:
-  #         ReadCapacityUnits: 1
-  #         WriteCapacityUnits: 1        
+      Resource: "arn:aws:dynamodb:eu-west-1:*:table/*"     
 functions:
   products:
     handler: products.getProductsList
     environment:
       TABLE_NAME: HappyShopProduct
+      TABLE_STORE: HappyShopStore
     events:
       - http:
           path: products
@@ -85,6 +50,7 @@ functions:
     handler: product.getProductsById
     environment:
       TABLE_NAME: HappyShopProduct
+      TABLE_STORE: HappyShopStore
     events:
       - http:
           path: products/{productId}
@@ -100,6 +66,7 @@ functions:
     handler: createProduct.createProduct
     environment:
       TABLE_NAME: HappyShopProduct
+      TABLE_STORE: HappyShopStore
     events:
       - http:
           path: products
