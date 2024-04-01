@@ -1,8 +1,14 @@
 'use strict';
-
-const products = require("./mockData").products;
-
+const AWS = require('aws-sdk')
+const dynamo = new AWS.DynamoDB.DocumentClient();
+const scan = async () => {
+  const scanResults = await dynamo.scan({
+    TableName: process.env.TABLE_NAME
+  }).promise()
+  return scanResults;
+}
 module.exports.getProductsList = async() => {
+  const scanResults = await scan();
   return {
     statusCode: 200,
     headers: {
@@ -11,10 +17,7 @@ module.exports.getProductsList = async() => {
       "Access-Control-Allow-Methods": "OPTIONS, GET",
     },
     body: JSON.stringify(
-      products
-    ),
+      scanResults["Items"]
+    )
   };
-
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
