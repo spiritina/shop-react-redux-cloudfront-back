@@ -1,0 +1,42 @@
+service: import-service
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: eu-west-1 
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: "s3:ListBucket"
+      Resource:
+        - "arn:aws:s3:::o-novak-shop-react-redux-cloudfront-import"
+    - Effect: "Allow"
+      Action: "s3:*"
+      Resource:
+        - "arn:aws:s3:::o-novak-shop-react-redux-cloudfront-import/*"    
+functions: 
+  importProductsFile:
+    handler: importProductsFile.importProductsFile
+    events:
+      - http:
+          path: import
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Access-Control-Allow-Headers
+              - Access-Control-Allow-Origin
+              - Access-Control-Allow-Methods
+          request:
+            parameters:
+              querystrings:
+                name: true
+  importFileParser: 
+    handler: importFileParser.importFileParser
+    events:
+      - s3:
+          bucket: o-novak-shop-react-redux-cloudfront-import
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploaded/
+          existing: true
