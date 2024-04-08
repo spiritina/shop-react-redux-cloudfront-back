@@ -18,6 +18,8 @@
   "homepage": "https://github.com/spiritina/shop-react-redux-cloudfront-back#readme",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.540.0",
+    "aws-sdk": "^2.1592.0",
+    "csv-parser": "^3.0.0",
     "uuid": "^9.0.1"
   }
 }
