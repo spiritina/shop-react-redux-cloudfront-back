@@ -1,0 +1,23 @@
+{
+  "name": "shop-react-redux-cloudfront-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "fill-tables": "node ./scripts/fillTables.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spiritina/shop-react-redux-cloudfront-back.git"
+  },
+  "author": "Olga Novak",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spiritina/shop-react-redux-cloudfront-back/issues"
+  },
+  "homepage": "https://github.com/spiritina/shop-react-redux-cloudfront-back#readme",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.540.0",
+    "uuid": "^9.0.1"
+  }
+}
