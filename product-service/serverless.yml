@@ -24,12 +24,21 @@ provider:
   name: aws
   runtime: nodejs20.x
   stage: dev
-  region: eu-west-1 	
+  region: eu-west-1
+  environment:
+    SQS_URL:
+      Ref: SQSQueue	
   iamRoleStatements:
     - Effect: "Allow"
       Action:
         - "dynamodb:*"
-      Resource: "arn:aws:dynamodb:eu-west-1:*:table/*"     
+      Resource: "arn:aws:dynamodb:eu-west-1:*:table/*"
+resources:
+  Resources:
+    SQSQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "catalogItemsQueue"           
 functions:
   products:
     handler: products.getProductsList
@@ -78,3 +87,12 @@ functions:
               - Access-Control-Allow-Origin
               - Access-Control-Allow-Methods
             allowCredentials: false          
+  catalogBatchProcess:
+    handler: catalogBatchProcess.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 5
+          arn:
+            Fn::GetAtt:
+              - SQSQueue
+              - Arn
