@@ -7,7 +7,7 @@ module.exports.importFileParser = async (event) => {
     // const parser = csvParser()
     const s3 = new AWS.S3({ region: REGION, apiVersion: '2006-03-01' })
 
-    const cloudWatchLogs = new AWS.CloudWatchLogs();
+    // const cloudWatchLogs = new AWS.CloudWatchLogs();
     // const logToCloudWatch = (data, fileName) => {
     //     const params = {
     //         logGroupName: "/aws/lambda/import-service-dev-importFileParser",
