@@ -6,6 +6,7 @@ const defaultHeaders = {
     "Access-Control-Allow-Headers": "*",
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "OPTIONS, GET",
+    'Access-Control-Allow-Credentials' : true,
 }
 module.exports.importProductsFile = async (event) => {
     const s3 = new AWS.S3({ region: REGION, apiVersion: '2006-03-01' })

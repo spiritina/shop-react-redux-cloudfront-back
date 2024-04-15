@@ -12,7 +12,14 @@ provider:
     - Effect: "Allow"
       Action: "s3:*"
       Resource:
-        - "arn:aws:s3:::o-novak-shop-react-redux-cloudfront-import/*"    
+        - "arn:aws:s3:::o-novak-shop-react-redux-cloudfront-import/*"
+    - Effect: Allow
+      Action: 
+        - s3:PutObject
+        - s3:GetObject
+      Resource:
+        - "arn:aws:s3:::o-novak-shop-react-redux-cloudfront-import/*"
+        - "arn:aws:s3:::o-novak-shop-react-redux-cloudfront-import"        
 functions: 
   importProductsFile:
     handler: importProductsFile.importProductsFile
