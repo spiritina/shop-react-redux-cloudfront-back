@@ -27,7 +27,8 @@ provider:
   region: eu-west-1
   environment:
     SQS_URL:
-      Ref: SQSQueue	
+      Ref: SQSQueue
+    SNS_TOPIC: MyTopic  	
   iamRoleStatements:
     - Effect: "Allow"
       Action:
