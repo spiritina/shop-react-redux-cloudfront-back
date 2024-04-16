@@ -48,7 +48,7 @@ resources:
       Type: "AWS::SNS::Subscription"
       Properties:
         Protocol: "email"
-        Endpoint: "Olga_Novak@epam.com"
+        Endpoint: "olga.novak.tests@gmail.com"
         TopicArn:
           Ref: MyTopic                   
 functions:
