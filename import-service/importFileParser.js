@@ -26,10 +26,11 @@ module.exports.importFileParser = async (event) => {
     //     })
     // }
     for (const record of event.Records) {
+        console.log(record)
         const params = {
             Bucket: BUCKET,
-            Key: record.object.key,
-            ContentType: "text/csv"
+            Key: record.s3.object.key,
+            // ContentType: "text/csv"
         }
         const sqs = new AWS.SQS();
         const s3Stream = s3.getObject(params).createReadStream();
