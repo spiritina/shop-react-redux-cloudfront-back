@@ -22,13 +22,14 @@ frameworkVersion: "3"
 
 provider:
   name: aws
-  runtime: nodejs20.x
+  runtime: nodejs14.x
   stage: dev
   region: eu-west-1
   environment:
     SQS_URL:
       Ref: SQSQueue
-    SNS_TOPIC: MyTopic  	
+    SNS_TOPIC:
+      Ref: MyTopic  	
   iamRoleStatements:
     - Effect: "Allow"
       Action:

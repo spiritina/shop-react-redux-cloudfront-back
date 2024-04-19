@@ -1,8 +1,10 @@
-const AWS = require('aws-sdk')
+const AWS = require('aws-sdk');
+const { createProduct } = require('./createProduct');
 
 module.exports.catalogBatchProcess = async (event) => {
    event.Records.forEach((product)=> {
-        console.log(product)
+        console.log(product);
+        createProduct({body: product});
         const sns = new AWS.SNS();
         const snsParams = {
             Message: "Product Created",
@@ -10,7 +12,7 @@ module.exports.catalogBatchProcess = async (event) => {
         }
         sns.publish(snsParams, (err, data) => {
             if(err){
-                console.log("Error: ", error)
+                console.log("Error: ", err)
             }else {
                 console.log("Product created:", data.MessageId)
             }
