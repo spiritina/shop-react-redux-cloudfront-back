@@ -28,7 +28,7 @@ module.exports.importFileParser = async (event) => {
     for (const record of event.Records) {
         console.log(record)
         const params = {
-            Bucket: BUCKET,
+            Bucket: record.s3.bucket.name,
             Key: record.s3.object.key,
             // ContentType: "text/csv"
         }

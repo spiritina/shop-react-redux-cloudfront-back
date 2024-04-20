@@ -1,7 +1,13 @@
+import { Client } from 'pg';
+
 const AWS = require('aws-sdk');
 const { createProduct } = require('./createProduct');
 
 module.exports.catalogBatchProcess = async (event) => {
+    const client = new Client({
+        connectionString: "",
+      });
+   await client.connect();
    event.Records.forEach((product)=> {
         console.log(product);
         createProduct({body: product});

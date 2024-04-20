@@ -4,6 +4,7 @@ const path = require('path');
 
 module.exports = {
   context: __dirname,
+  mode: "production",
   resolve: {
     extensions: ['.mjs', '.json', '.ts'],
     symlinks: false,
