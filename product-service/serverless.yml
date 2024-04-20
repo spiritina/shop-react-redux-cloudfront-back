@@ -15,7 +15,7 @@ provider:
     - Effect: "Allow"
       Action: 
         - sqs:*
-      Resource: "*"
+      Resource: '*'
     - Effect: "Allow"
       Action:
         - "dynamodb:*"
@@ -23,7 +23,7 @@ provider:
 resources:
   Resources:
     SQSQueue:
-      Type: AWS::SQS::Queue
+      Type: AWS::SQS::Queue 
       Properties:
         QueueName: catalogItemsQueue
     MyTopic:
@@ -87,10 +87,14 @@ functions:
               - Access-Control-Allow-Methods
             allowCredentials: false          
   catalogBatchProcess:
+    environment:
+      TABLE_NAME: HappyShopProduct
+      TABLE_STORE: HappyShopStore
     handler: catalogBatchProcess.catalogBatchProcess
     events:
       - sqs:
           batchSize: 5
+          enabled: true
           arn:
             Fn::GetAtt:
               - SQSQueue
