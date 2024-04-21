@@ -35,11 +35,11 @@ module.exports.importFileParser = async (event) => {
         const sqs = new AWS.SQS();
         const s3Object = await s3.getObject(params).promise();
         const s3Stream = Readable.from(s3Object.Body);
-        // s3Stream._read = () => {};
-        // s3Stream.push(s3Object.Body);
+        s3Stream._read = () => {};
+        s3Stream.push(s3Object.Body);
         s3Stream.push(null);
         s3Stream
-            .pipe(csvParser())
+            .pipe(csvParser({headers: ["title","description","price","count"]}))
             .on("data", (data)=> {
                 console.log(data)
                 const params = {

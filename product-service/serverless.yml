@@ -17,6 +17,10 @@ provider:
         - sqs:*
       Resource: '*'
     - Effect: "Allow"
+      Action: 
+        - sns:*
+      Resource: '*'    
+    - Effect: "Allow"
       Action:
         - "dynamodb:*"
       Resource: "arn:aws:dynamodb:eu-west-1:*:table/*"
@@ -90,6 +94,10 @@ functions:
     environment:
       TABLE_NAME: HappyShopProduct
       TABLE_STORE: HappyShopStore
+      SQS_URL:
+        Ref: SQSQueue
+      SNS_TOPIC:
+        Ref: MyTopic  
     handler: catalogBatchProcess.catalogBatchProcess
     events:
       - sqs:

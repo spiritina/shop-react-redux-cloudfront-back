@@ -5,16 +5,14 @@ module.exports.catalogBatchProcess = async (event) => {
     try {    
         for (const record of event.Records) {
           const product = JSON.parse(record.body);
-          console.log('Product:', product);
-    
-          if (
-            !product ||
-            !product.title ||
-            !product.description ||
-            typeof parseFloat(product.price) !== 'number' ||
-            typeof parseInt(product.count) !== 'number'
-          ) {
-            throw new Error("Invalid product", JSON.stringify(product))
+          if (!product) {
+            throw new Error("No product", JSON.stringify(product))
+          }
+          if (!product.title) {
+            throw new Error("Invalid product title", JSON.stringify(product))
+          }
+          if (!product.description) {
+            throw new Error("Invalid product description", JSON.stringify(product))
           }
     
           const { title, description, price } = product;
@@ -40,6 +38,7 @@ module.exports.catalogBatchProcess = async (event) => {
               }).promise();
 
             await putStore({ count, id});
+            console.log(FinalItem)
             await dynamo.putItem({
                 TableName: process.env.TABLE_NAME,
                 Item: FinalItem
