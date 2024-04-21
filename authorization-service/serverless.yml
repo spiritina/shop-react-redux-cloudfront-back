@@ -1,0 +1,16 @@
+service: product-service
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: eu-west-1
+environment:
+   spiritina: TEST_PASSWORD 
+plugin:
+  - serverless-dotenv-plugin                   
+functions:
+  basicAuthorisation:
+    handler: basicAuthorizer.basicAuthorizer
+
