@@ -11,8 +11,8 @@ module.exports.catalogBatchProcess = async (event) => {
             !product ||
             !product.title ||
             !product.description ||
-            typeof product.price !== 'number' ||
-            typeof product.count !== 'number'
+            typeof parseFloat(product.price) !== 'number' ||
+            typeof parseInt(product.count) !== 'number'
           ) {
             throw new Error("Invalid product", JSON.stringify(product))
           }
