@@ -5,6 +5,7 @@ module.exports.catalogBatchProcess = async (event) => {
     try {    
         for (const record of event.Records) {
           const product = JSON.parse(record.body);
+          console.log(product)
           if (!product) {
             throw new Error("No product", JSON.stringify(product))
           }
@@ -36,26 +37,25 @@ module.exports.catalogBatchProcess = async (event) => {
                     count: { N: String(count) || "0" }
                 }
               }).promise();
-
-            await putStore({ count, id});
-            console.log(FinalItem)
-            await dynamo.putItem({
-                TableName: process.env.TABLE_NAME,
-                Item: FinalItem
-            }).promise()
-            const sns = new AWS.SNS();
-            const snsParams = {
-                Message: "Product Created",
-                TopicArn: process.env.SNS_TOPIC
-            }
-            sns.publish(snsParams, (err, data) => {
-                if(err){
-                    console.log("Error: ", err)
-                }else {
-                    console.log("Product created:", data.MessageId)
-                }
-            })
-        }  
+          }  
+          await putStore({ count, id});
+          await dynamo.putItem({
+              TableName: process.env.TABLE_NAME,
+              Item: FinalItem
+          }).promise()
+          const sns = new AWS.SNS();
+          const snsParams = {
+              Message: "Product Created",
+              TopicArn: process.env.SNS_TOPIC
+          }
+          console.log(snsParams)
+          sns.publish(snsParams, (err, data) => {
+              if(err){
+                  console.log("Error: ", err)
+              }else {
+                  console.log("Product created:", data.MessageId)
+              }
+          })  
         }  
       } catch (err) {
         console.log(err)
