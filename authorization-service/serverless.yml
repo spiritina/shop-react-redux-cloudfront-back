@@ -1,16 +1,21 @@
-service: product-service
+service: autorization-service
 frameworkVersion: "3"
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs20.x
   stage: dev
   region: eu-west-1
-environment:
-   spiritina: TEST_PASSWORD 
-plugin:
+plugins:
   - serverless-dotenv-plugin                   
 functions:
-  basicAuthorisation:
+  token:
+    handler: token.token
+    events:
+      - http:
+          method: get
+          cors: true
+          path: token
+  basicAuthorizer:
     handler: basicAuthorizer.basicAuthorizer
 
