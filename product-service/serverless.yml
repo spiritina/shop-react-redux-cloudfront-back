@@ -1,35 +1,47 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
-
 service: product-service
-# app and org for use with dashboard.serverless.com
-#app: your-app-name
-#org: your-org-name
-
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
 frameworkVersion: "3"
 
 provider:
   name: aws
   runtime: nodejs14.x
   stage: dev
-  region: eu-west-1 	
+  region: eu-west-1
+  environment:
+    SQS_URL:
+      Ref: SQSQueue
+    SNS_TOPIC:
+      Ref: MyTopic  	
   iamRoleStatements:
+    - Effect: "Allow"
+      Action: 
+        - sqs:*
+      Resource: '*'
+    - Effect: "Allow"
+      Action: 
+        - sns:*
+      Resource: '*'    
     - Effect: "Allow"
       Action:
         - "dynamodb:*"
-      Resource: "arn:aws:dynamodb:eu-west-1:*:table/*"     
+      Resource: "arn:aws:dynamodb:eu-west-1:*:table/*"
+resources:
+  Resources:
+    SQSQueue:
+      Type: AWS::SQS::Queue 
+      Properties:
+        QueueName: catalogItemsQueue
+    MyTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        DisplayName: Create Product Topic
+        TopicName: createProductTopic
+    MyEmailSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Protocol: email
+        Endpoint: olga.novak.tests@gmail.com
+        TopicArn:
+          Ref: MyTopic                   
 functions:
   products:
     handler: products.getProductsList
@@ -78,3 +90,20 @@ functions:
               - Access-Control-Allow-Origin
               - Access-Control-Allow-Methods
             allowCredentials: false          
+  catalogBatchProcess:
+    environment:
+      TABLE_NAME: HappyShopProduct
+      TABLE_STORE: HappyShopStore
+      SQS_URL:
+        Ref: SQSQueue
+      SNS_TOPIC:
+        Ref: MyTopic  
+    handler: catalogBatchProcess.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 5
+          enabled: true
+          arn:
+            Fn::GetAtt:
+              - SQSQueue
+              - Arn
