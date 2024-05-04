@@ -38,6 +38,12 @@ functions:
       - http:
           path: import
           method: get
+          authorizer:
+            name: tokenBasicAuthorizer
+            type: token
+            arn: arn:aws:lambda:eu-west-1:905418409104:function:autorization-service-dev-basicAuthorizer
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
           cors:
             origin: '*'
             headers:

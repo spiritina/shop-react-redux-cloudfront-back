@@ -16,6 +16,12 @@ functions:
           method: get
           cors: true
           path: token
+          authorizer:
+            name: tokenBasicAuthorizer
+            type: token
+            arn: arn:aws:lambda:eu-west-1:905418409104:function:autorization-service-dev-basicAuthorizer
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
   basicAuthorizer:
     handler: basicAuthorizer.basicAuthorizer
 
